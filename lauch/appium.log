@@ -1,0 +1,43 @@
+2018-04-27 17:16:17:330 - info: [Appium] Welcome to Appium v1.7.2
+2018-04-27 17:16:17:331 - info: [Appium] Non-default server args:
+2018-04-27 17:16:17:332 - info: [Appium]   address: 127.0.0.1
+2018-04-27 17:16:17:332 - info: [Appium]   log: appium.log
+2018-04-27 17:16:17:332 - info: [Appium]   logTimestamp: true
+2018-04-27 17:16:17:332 - info: [Appium]   localTimezone: true
+2018-04-27 17:16:17:346 - info: [Appium] Appium REST http interface listener started on 127.0.0.1:4723
+2018-04-27 17:16:23:822 - info: [HTTP] --> POST /wd/hub/session {"capabilities":{"firstMatch":[{}],"alwaysMatch":{"platformName":"Android"}},"desiredCapabilities":{"platformName":"Android","platformVersion":"4.4.2","deviceName":"192.168.1.54:5555","appActivity":"com.hisense.base.MainActivity","appPackage":"com.jamdeo.tv.vod","automationName":"UIAutomator2","noSign":true}}
+2018-04-27 17:16:23:825 - info: [debug] [MJSONWP] Calling AppiumDriver.createSession() with args: [{"platformName":"Android","platformVersion":"4.4.2","deviceName":"192.168.1.54:5555","appActivity":"com.hisense.base.MainActivity","appPackage":"com.jamdeo.tv.vod","automationName":"UIAutomator2","noSign":true},null,{"firstMatch":[{}],"alwaysMatch":{"platformName":"Android"}}]
+2018-04-27 17:16:23:826 - info: [debug] [BaseDriver] Event 'newSessionRequested' logged at 1524820583826 (17:16:23 GMT+0800 (中国标准时间))
+2018-04-27 17:16:23:827 - info: [Appium] Merged W3C capabilities {"firstMatch":[{}],"alwaysMatch":{"platformName... into desiredCapabilities object {"platformName":"Android","platformVersion":"4....
+2018-04-27 17:16:23:830 - info: [Appium] Creating new AndroidUiautomator2Driver (v0.11.0) session
+2018-04-27 17:16:23:830 - info: [Appium] Capabilities:
+2018-04-27 17:16:23:830 - info: [Appium]   platformName: Android
+2018-04-27 17:16:23:830 - info: [Appium]   platformVersion: 4.4.2
+2018-04-27 17:16:23:830 - info: [Appium]   deviceName: 192.168.1.54:5555
+2018-04-27 17:16:23:831 - info: [Appium]   appActivity: com.hisense.base.MainActivity
+2018-04-27 17:16:23:831 - info: [Appium]   appPackage: com.jamdeo.tv.vod
+2018-04-27 17:16:23:831 - info: [Appium]   automationName: UIAutomator2
+2018-04-27 17:16:23:831 - info: [Appium]   noSign: true
+2018-04-27 17:16:23:839 - info: [BaseDriver] Session created with session id: 14af9f41-f60d-4edb-beba-b627759db40b
+2018-04-27 17:16:24:246 - info: [debug] [AndroidDriver] Getting Java version
+2018-04-27 17:16:24:454 - info: [AndroidDriver] Java version is: 1.8.0_111
+2018-04-27 17:16:24:457 - info: [ADB] Checking whether adb is present
+2018-04-27 17:16:24:466 - info: [ADB] Using adb.exe from D:\Android\sdk\platform-tools\adb.exe
+2018-04-27 17:16:24:467 - info: [AndroidDriver] Retrieving device list
+2018-04-27 17:16:24:468 - info: [debug] [ADB] Trying to find a connected android device
+2018-04-27 17:16:24:469 - info: [debug] [ADB] Getting connected devices...
+2018-04-27 17:16:24:497 - info: [debug] [ADB] 1 device(s) connected
+2018-04-27 17:16:24:497 - info: [AndroidDriver] Looking for a device with Android '4.4.2'
+2018-04-27 17:16:24:497 - info: [debug] [ADB] Setting device id to 192.168.1.54:5555
+2018-04-27 17:16:24:498 - info: [ADB] Getting device platform version
+2018-04-27 17:16:24:498 - info: [debug] [ADB] Getting connected devices...
+2018-04-27 17:16:24:524 - info: [debug] [ADB] 1 device(s) connected
+2018-04-27 17:16:24:525 - info: [debug] [ADB] Running 'D:\Android\sdk\platform-tools\adb.exe' with args: ["-P",5037,"-s","192.168.1.54:5555","shell","getprop","ro.build.version.release"]
+2018-04-27 17:16:24:576 - info: [debug] [ADB] Current device property 'ro.build.version.release': 4.4.2
+2018-04-27 17:16:24:576 - info: [AndroidDriver] Using device: 192.168.1.54:5555
+2018-04-27 17:16:24:577 - info: [ADB] Checking whether adb is present
+2018-04-27 17:16:24:577 - info: [debug] [ADB] Setting device id to 192.168.1.54:5555
+2018-04-27 17:16:24:578 - info: [debug] [ADB] Getting connected devices...
+2018-04-27 17:16:24:603 - info: [debug] [ADB] 1 device(s) connected
+2018-04-27 17:16:24:603 - info: [debug] [ADB] Running 'D:\Android\sdk\platform-tools\adb.exe' with args: ["-P",5037,"-s","192.168.1.54:5555","shell","getprop","ro.build.version.sdk"]
+2018-04-27 17:16:24:644 - info: [debug] [ADB] Current device property 'ro.build.version.sdk': 19

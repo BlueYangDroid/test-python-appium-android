@@ -1,0 +1,13 @@
+!EnvironmentInfo
+apk: F:\AndroidStudioProjects\UnifiedFrame\Code\demotest/apk/v2ex.apk
+app_activity: com.hisense.base.MainActivity
+app_package: com.jamdeo.tv.vod
+appium: 1.7.2
+devices:
+- !DeviceInfo
+  device_name: 192.168.1.54:5555
+  platform_name: Android
+  platform_version: 4.4.2
+html_report: F:\AndroidStudioProjects\UnifiedFrame\Code\demotest/report/html
+pages_yaml: F:\AndroidStudioProjects\UnifiedFrame\Code\demotest/page/yaml
+xml_report: F:\AndroidStudioProjects\UnifiedFrame\Code\demotest/report/xml

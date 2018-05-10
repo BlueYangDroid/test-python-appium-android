@@ -1,0 +1,23 @@
+---
+LoginPage:
+  dec: 登录页面
+  steps:
+    -
+      name: 账户
+      find_type: ids
+      element_info: com.hisense.hitv.hicloud.account:id/edit_text
+      index: 0
+      action: set_value
+      msg: '13144477788'
+    -
+      name: 密码
+      find_type: ids
+      element_info: com.hisense.hitv.hicloud.account:id/edit_text
+      index: 1
+      action: set_value
+      msg: '111111'
+    -
+      name: 登录
+      find_type: id
+      element_info: com.hisense.hitv.hicloud.account:id/btn_login
+      action: click

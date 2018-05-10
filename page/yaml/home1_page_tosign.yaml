@@ -1,0 +1,9 @@
+---
+HomePageToSign:
+  dec: 主界面未登录
+  steps:
+    -
+      name: 登录按钮
+      find_type: id
+      element_info: com.jamdeo.tv.vod:id/main_tv_login_status
+      action: click

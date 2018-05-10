@@ -1,0 +1,13 @@
+---
+HomePageSigned:
+  dec: 主界面已登录
+  steps:
+    -
+      name: 登录断言
+      find_type: id
+      element_info: com.jamdeo.tv.vod:id/main_tv_login_status
+      action: assert
+      check_time: 10
+      assert_values:
+        - 未登录
+

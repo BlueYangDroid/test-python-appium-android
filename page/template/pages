@@ -1,0 +1,32 @@
+#!/usr/bin/env python
+# _*_ coding:utf-8 _*_
+
+
+from page import PageGenerator as gen
+
+pages = gen.parse()
+
+
+def get_step(page_name, step_name):
+    '''
+    根据事先yaml加载过滤后的page-step_names数据, 还原各个step的详情字典数据
+    :param page_name:
+    :param step_name:
+    :return:
+    '''
+    steps = pages[page_name]['steps']
+    for step in steps:
+        if step['name'] == step_name:
+            return step
+
+{% for page, steps in page_list.items() %}
+class {{page}}:
+    {% for step in steps %}
+    step_{{step}} = get_step('{{page}}', '{{step}}')
+    {% endfor %}
+
+{% endfor %}
+
+
+
+
