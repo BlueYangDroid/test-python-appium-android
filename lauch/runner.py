@@ -6,7 +6,9 @@ import os
 import sys
 from multiprocessing.pool import ThreadPool
 
+
 sys.path.append("..")
+from common.Environment import Environment
 from common.AndroidDebugBridge import AndroidDebugBridge
 from common.BaseAndroidPhone import get_phone_info
 from lauch.AppiumServer import AppiumServer
@@ -28,6 +30,7 @@ def kill_adb():
     else:
         os.popen("killall adb")
     os.system("adb start-server")
+
 
 def runnerPool(devices):
     devices_Pool = []
@@ -77,15 +80,14 @@ def runner_device(params):
 if __name__ == '__main__':
 
     # kill_adb()
-    AndroidDebugBridge().connect_device("192.168.1.54")
-    devicess = AndroidDebugBridge().attached_devices()
+    env = Environment()
+    devicess = env.devices
     if len(devicess) > 0:
 
         l_devices = []
         for device in devicess:
             dev = {}
             dev["device"] = device
-
 
             # 多设备扩展初始化
             # init(dev)

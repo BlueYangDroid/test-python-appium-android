@@ -3,11 +3,23 @@ PlayStartFullscreen:
   dec: 简单起播至全屏
   steps:
     -
+      name: 启动首页
+      action: launch
+      launch_values:
+        - com.jamdeo.tv.vod
+        - com.hisense.base.MainActivity
+    -
       name: 进入自动化测试页
       find_type: text
       element_info: 自动化测试
       action: click
       check_time: 5
+    -
+      name: 测试页断言
+      action: assert
+      assert_type: assert_activity
+      assert_values:
+        - com.hisense.appium.TestAppiumActivity
     -
       name: resize
       find_type: id
@@ -32,7 +44,7 @@ PlayStartFullscreen:
       find_type: id
       element_info: com.jamdeo.tv.vod:id/test_video_status
       action: assert
-      check_time: 5
+      check_time: 10
       assert_values:
         - STATE_PLAYING
         - AD_STATE_PLAYING

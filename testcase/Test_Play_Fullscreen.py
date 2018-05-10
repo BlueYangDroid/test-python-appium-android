@@ -3,20 +3,18 @@
 
 import pytest
 
-import time
-
 from page.pages import *
-from sample.Test_Base import TestBase
-from common.BaseElementEnmu import Action
-from common.BaseElementEnmu import Option
+from testcase.TestBase import TestBase
 from arch import tools
+from utils.pylog import Log as L
 
+TAG = 'Test_Play_Fullscreen'
 
-class TestSample1(TestBase):
+@pytest.mark.usefixtures("fixtrue_env")
+class TestPlayFullscreen(TestBase):
 
-    @pytest.mark.usefixtures("fixtrue_env")
-    def test_something(self):
-        print('test_something click ------ device: ' + self.deviceName)
+    def test_enter_auto_page(self):
+        L.i('\n =========> test_enter_auto_page, device: ' + self.deviceName, tag=TAG)
 
         '''
         操作元素.operateInfo是字典
@@ -34,15 +32,19 @@ class TestSample1(TestBase):
         # uiautomator - UiSelector：
         # name方式在1.5版本后已废除，能找到接口，不可使用，使用new UiSelector().text替代
         # self.driver.find_element_by_android_uiautomator("new UiSelector().text(\"海信广告测试\")").click()
+        self.operater.launch(PlayStartFullscreen.step_启动首页)
         self.operater.operate(PlayStartFullscreen.step_进入自动化测试页, self.deviceName)
-        self.play_large_screen()
+        self.operater.base_assert(PlayStartFullscreen.step_测试页断言)
+        L.i(' <========= test_enter_auto_page\n', tag=TAG)
 
-    def play_large_screen(self):
+    def test_play_large_screen(self):
+        L.i('\n =========> test_play_large_screen, device: ' + self.deviceName, tag=TAG)
         self.operater.operate(PlayStartFullscreen.step_resize, self.deviceName)
         self.operater.operate(PlayStartFullscreen.step_start, self.deviceName)
         self.operater.operate(PlayStartFullscreen.step_CheckedTextView, self.deviceName)
-        tools.sleep(15)
-        self.operater.operate(PlayStartFullscreen.step_PLAYING断言, self.deviceName)
+        tools.sleep(5)
+        self.operater.base_assert(PlayStartFullscreen.step_PLAYING断言)
+        L.i(' <========= test_play_large_screen\n', tag=TAG)
 
 
 

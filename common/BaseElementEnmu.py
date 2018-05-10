@@ -11,6 +11,7 @@ class Option(object):
     MSG = "msg"
     ASSERT_VALUES = "assert_values"
     ASSERT_TYPE = "assert_type"
+    LAUNCH_VALUES = 'launch_values'
 
 class Action(object):
     FIND_ELEMENT_BY_ID = "id"
@@ -45,4 +46,8 @@ class Action(object):
     DEVICES_FILE = "devices.pickle"
     REPORT_FILE = "Report.xlsx"
 
+    LAUNCH = "launch"
+
     ASSERT = "assert"
+    ASSERT_TEXT = "assert_text"
+    ASSERT_ACTIVITY = "assert_activity"

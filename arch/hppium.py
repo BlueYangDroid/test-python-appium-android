@@ -4,12 +4,23 @@ from appium import webdriver
 from arch import consts, device, activity
 from arch import widget
 from common.Environment import Environment
+import os
+
+def singleton(class_):
+    instances = {}
+
+    def getinstance(*args, **kwargs):
+        if class_ not in instances:
+            instances[class_] = class_(*args, **kwargs)
+        return instances[class_]
+
+    return getinstance
 
 
-class Hppium(object):
+@singleton
+class Hppium:
 
     def __init__(self):
-        super(Hppium, self).__init__()
         env = Environment().get_environment_info()
         split = env.devices[0].device_name.split(':')
         self._device = device.Device({
@@ -61,11 +72,11 @@ class Hppium(object):
             self._driver = webdriver.Remote("http://localhost:4723/wd/hub", self.get_device_capabilities())
             print("driver is started: " + self._device._name)
         else:
-            print("server is started: " + self._device._name)
+            print("server is started before: " + self._device._name)
 
     def stop_driver(self):
-        if self._driver is None:
-            print("server is stopped: " + self._device._name)
+        if not self._driver:
+            print("server is stopped before: " + self._device._name)
         else:
             print("driver is stopping: " + self._device._name)
             self._driver.close_app()

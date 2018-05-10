@@ -44,6 +44,7 @@ class Shell:
             tools.sleep(1)
             android_devices_list = Shell.get_devices_list()
 
+        L.i('get_android_devices %s ' % str(android_devices_list), tag=TAG)
         return android_devices_list
 
     @staticmethod
@@ -51,7 +52,7 @@ class Shell:
         from common import config
         config = config.Config()
         device_name = config.get_config(config.TITLE_DEVICE, config.VALUE_DEVICE_NAME)
-        L.i('%s|connect_config_device %s ' % (TAG, device_name))
+        L.i('connect_config_device %s ' % device_name, tag=TAG)
         ADB(device_name).connect()
 
     @staticmethod

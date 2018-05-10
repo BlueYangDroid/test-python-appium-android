@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python
+# _*_ coding:utf-8 _*_
 
 import subprocess
 import os
@@ -89,17 +90,23 @@ class AndroidDebugBridge(object):
     def connect_device(self, device):
         command_result = ''
         command_text = 'adb connect %s' % device
-        # print(command_text)
-        results = os.popen(command_text, "r")
-        while 1:
-            line = results.readline()
+        results = subprocess.Popen('adb connect 192.168.1.54', shell=True, stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE).stdout.readlines()
+        for item in results:
+            line = item.decode()
+            print('AndroidDebugBridge| connect_device readline: %s ' % line)
+            command_result += line
             if device in line:
                 break
-            command_result += line
-        results.close()
         return command_result
 
 
 if __name__ == '__main__':
-    print(os.popen("adb connect 192.168.1.54", 'r').readline())
+    results = subprocess.Popen('adb connect 192.168.1.54', shell=True, stdout=subprocess.PIPE,
+                                  stderr=subprocess.PIPE).stdout.readlines()
+    for item in results:
+        t = item.decode()
+        print('AndroidDebugBridge| connect_device readline: %s ' % t)
+    # 这种方式遇到中文，会以gbk去读取，而系统默认的编码为utf-8，因此报gbk codec error
+    # print(os.popen("adb connect 192.168.1.54", 'r').readline().decode())
     print(AndroidDebugBridge().attached_devices())

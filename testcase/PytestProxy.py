@@ -12,6 +12,7 @@ from utils.pylog import Log as log
 from common.Environment import Environment
 from utils.shell import Shell
 from arch import device as dev
+from utils.pylog import Log as L
 
 """
 run all case:
@@ -24,7 +25,7 @@ run case with key word:
     python PytestProxy.py -k <keyword>
 
 """
-
+TAG = 'PytestProxy'
 
 def run():
     env = Environment()
@@ -35,8 +36,14 @@ def run():
     # extra_args = ['-s', '-q', '--alluredir', xml_report_path]
     extra_args = ['-s', '-q']
     # test_args = sys.argv[1:]
-    test_args = [os.path.join(os.path.dirname(__file__), os.pardir, 'sample/Test_Sample2.py')
-                 , os.path.join(os.path.dirname(__file__), os.pardir, 'sample/Test_Sample1.py')]
+    test_args = [os.path.join(os.path.dirname(__file__), os.pardir, 'testcase/Test_Login_Page.py'),
+                 os.path.join(os.path.dirname(__file__), os.pardir, 'testcase/Test_Play_Fullscreen.py'),
+                 os.path.join(os.path.dirname(__file__), os.pardir, 'testcase/Test_Login_Page.py'),
+                 os.path.join(os.path.dirname(__file__), os.pardir, 'testcase/Test_Play_Fullscreen.py'),
+                 os.path.join(os.path.dirname(__file__), os.pardir, 'testcase/Test_Login_Page.py'),
+                 os.path.join(os.path.dirname(__file__), os.pardir, 'testcase/Test_Play_Fullscreen.py')
+                 ]
+    L.i('------------ pytest 开始测试 ------------, files: \n %s \n' % '\n'.join(test_args), tag=TAG)
     pytest.main(extra_args + test_args)
     # # 生成html测试报告
     # cmd = 'allure generate %s -o %s' % (xml_report_path, html_report_path)

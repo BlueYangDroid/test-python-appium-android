@@ -50,7 +50,7 @@ class OperateElement:
         self.height = self.driver.get_window_size()['height']
         return self
 
-    def findElement(self, operateInfo):
+    def find_element_until(self, operateInfo):
         '''
         查找元素.operateInfo,dict|list
         action：对应的操作
@@ -70,7 +70,7 @@ class OperateElement:
                 return {"result": True}
             if type(operateInfo) == dict:  # 单检查点
                 if operateInfo.get("is_webview", "0") == 1 and self.switchToWebview() is False:  # 1表示切换到webview
-                    print("切换到webview失败，请确定是否在webview页面")
+                    self.log("切换到webview失败，请确定是否在webview页面")
                     return {"result": False, "webview": False}
                 elif operateInfo.get("is_webview", "0") == 2:
                     self.switchToNative()
@@ -81,13 +81,13 @@ class OperateElement:
                 WebDriverWait(self.driver, t).until(lambda x: self.elements_by(operateInfo))  # 操作元素是否存在
                 return {"result": True}
         except selenium.common.exceptions.TimeoutException:
-            # print("查找元素" + mOperate["element_info"] + "超时")
+            self.log("查找元素超时 " + str(operateInfo))
             return {"result": False}
         except selenium.common.exceptions.NoSuchElementException:
-            # print("查找元素" + mOperate["element_info"] + "不存在")
+            self.log("查找元素不存在 " + str(operateInfo) + "")
             return {"result": False}
         except selenium.common.exceptions.WebDriverException:
-            print("WebDriver出现问题了")
+            self.log("WebDriver出现问题了")
             return {"result": False, "text": "selenium.common.exceptions.WebDriverException异常"}
 
     def operate(self, operateInfo, device):
@@ -106,9 +106,14 @@ class OperateElement:
         :param device:
         :return: result TRUE/FALSE
         '''
-        L.i("---- operate ---- " + device, tag=TAG)
-        res = self.findElement(operateInfo)
-        if res["result"]:
+        self.log("---- operate ---- " + device)
+        res = self.find_element_until(operateInfo)
+
+        self.log("****** operate pre assert ****** ")
+        find_result_ = res["result"]
+        assert find_result_
+
+        if find_result_:
             return self.operate_by(operateInfo, device)
         else:
             return res
@@ -120,7 +125,7 @@ class OperateElement:
             L.i("operate_by: " + info, tag=TAG)
 
             if operateInfo.get(Option.ACTION, "0") == "0":  # 如果没有此字段，说明没有相应操作，一般是检查点，直接判定为成功
-                print("operate_by: just back true cause none action !")
+                self.log("operate_by: just back true cause none action !")
                 return {"result": True}
             actions = {
                 Action.SWIPE_DOWN: lambda: self.swipeToDown(),
@@ -135,15 +140,13 @@ class OperateElement:
             }
             return actions[operateInfo.get(Option.ACTION)]()
         except IndexError:
-            print(operateInfo["element_info"] + "索引错误")
+            self.log(operateInfo["element_info"] + "索引错误")
             return {"result": False}
-
         except selenium.common.exceptions.NoSuchElementException:
-            print(operateInfo["element_info"] + "页面元素不存在或没有加载完成")
-
+            self.log(operateInfo["element_info"] + "页面元素不存在或没有加载完成")
             return {"result": False}
         except selenium.common.exceptions.StaleElementReferenceException:
-            print(operateInfo["element_info"] + "页面元素已经变化")
+            self.log(operateInfo["element_info"] + "页面元素已经变化")
             return {"result": False}
         except KeyError:
             # 如果key不存在，一般都是在自定义的page页面去处理了，这里直接返回为真
@@ -151,20 +154,20 @@ class OperateElement:
 
     # 获取到元素到坐标点击，主要解决浮动层遮档无法触发driver.click的问题
     def adb_tap(self, operateInfo, device):
-        print("adb_tap ----")
+        self.log("adb_tap ----")
 
         bounds = self.elements_by(operateInfo).location
         x = str(bounds["x"])
         y = str(bounds["y"])
 
         cmd = "adb -s " + device + " shell input tap " + x + " " + y
-        print(cmd)
+        self.log(cmd)
         os.system(cmd)
 
         return {"result": True}
 
     def toast(self, xpath):
-        print("toast ----")
+        self.log("toast ----")
         try:
             WebDriverWait(self.driver, 10, 0.5).until(
                 expected_conditions.presence_of_element_located((By.XPATH, xpath)))
@@ -188,7 +191,7 @@ class OperateElement:
 
     # 点击事件
     def click(self, operateInfo):
-        print("click ----")
+        self.log("click ----")
         find_type_ = operateInfo["find_type"]
         single = self.check_find_single(find_type_)
 
@@ -200,8 +203,12 @@ class OperateElement:
 
     # code 事件
     def press_keycode(self, operateInfo):
-        print("press_keycode ----")
-        self.driver.press_keycode(operateInfo.get("code", 0))
+        ''' key code, string格式: 参考
+        https://blog.csdn.net/feizhixuan46789/article/details/16801429
+        '''
+        keycode = operateInfo.get("code", 0)
+        self.log("press_keycode ---- " + keycode)
+        self.driver.press_keycode(keycode)
         return {"result": True}
 
     def get_content_desc(self, mOperate):
@@ -211,42 +218,39 @@ class OperateElement:
 
     '''
     切换native
-    
     '''
-
     def switchToNative(self):
-        print("switchToNative ----")
+        self.log("switchToNative ----")
         self.driver.switch_to.context("NATIVE_APP")  # 切换到native
 
     '''
     切换webview
     '''
-
     def switchToWebview(self):
-        print("switchToWebview ----")
+        self.log("switchToWebview ----")
         try:
             n = 1
             while n < 10:
                 time.sleep(3)
                 n = n + 1
-                print(self.driver.contexts)
+                self.log(self.driver.contexts)
                 for cons in self.driver.contexts:
                     if cons.lower().startswith("webview"):
                         self.driver.switch_to.context(cons)
-                        # print(self.driver.page_source)
+                        self.log(self.driver.page_source)
                         self.driver.execute_script('document.querySelectorAll("html")[0].style.display="block"')
                         self.driver.execute_script('document.querySelectorAll("head")[0].style.display="block"')
                         self.driver.execute_script('document.querySelectorAll("title")[0].style.display="block"')
-                        print("切换webview成功")
+                        self.log("切换webview成功")
                         return {"result": True}
             return {"result": False}
         except appium.common.exceptions.NoSuchContextException:
-            print("切换webview失败")
+            self.log("切换webview失败")
             return {"result": False, "text": "appium.common.exceptions.NoSuchContextException异常"}
 
     # 左滑动
     def swipeLeft(self, operateInfo):
-        print("swipeLeft ----")
+        self.log("swipeLeft ----")
         width = self.driver.get_window_size()["width"]
         height = self.driver.get_window_size()["height"]
         x1 = int(width * 0.75)
@@ -256,7 +260,7 @@ class OperateElement:
 
     # swipe start_x: 200, start_y: 200, end_x: 200, end_y: 400, duration: 2000 从200滑动到400
     def swipeToDown(self):
-        print("swipeToDown ----")
+        self.log("swipeToDown ----")
         height = self.driver.get_window_size()["height"]
         x1 = int(self.driver.get_window_size()["width"] * 0.5)
         y1 = int(height * 0.25)
@@ -264,22 +268,22 @@ class OperateElement:
 
         self.driver.swipe(x1, y1, x1, y2, 1000)
         # self.driver.swipe(0, 1327, 500, 900, 1000)
-        print("--swipeToDown--")
+        self.log("--swipeToDown--")
         return {"result": True}
 
     def swipeToUp(self):
-        print("swipeToUp ----")
+        self.log("swipeToUp ----")
         height = self.driver.get_window_size()["height"]
         width = self.driver.get_window_size()["width"]
         self.driver.swipe(width / 2, height * 3 / 4, width / 2, height / 4)
-        print("执行上拉")
+        self.log("执行上拉")
         return {"result": True}
         # for i in range(n):
         #     self.driver.swipe(540, 800, 540, 560, 0)
         #     time.sleep(2)
 
     def swipeToRight(self):
-        print("swipeToRight ----")
+        self.log("swipeToRight ----")
         height = self.driver.get_window_size()["height"]
         width = self.driver.get_window_size()["width"]
         x1 = int(width * 0.05)
@@ -287,7 +291,7 @@ class OperateElement:
         x2 = int(width * 0.75)
         self.driver.swipe(x1, y1, x1, x2, 1000)
         # self.driver.swipe(0, 1327, 500, 900, 1000)
-        print("--swipeToUp--")
+        self.log("--swipeToUp--")
 
     def set_value(self, operateInfo):
         """
@@ -295,7 +299,7 @@ class OperateElement:
         :param operateInfo:
         :return:
         """
-        print("set_value ----")
+        self.log("set_value ----")
         find_type_ = operateInfo["find_type"]
         single = self.check_find_single(find_type_)
 
@@ -311,15 +315,68 @@ class OperateElement:
             pass
         return {"result": True}
 
+    def launch(self, operateInfo):
+        """
+        launch
+        :param operateInfo:
+        :return:
+        """
+        launch_values = operateInfo.get(Option.LAUNCH_VALUES)
+        assert len(launch_values) >= 2
+        current_activity = self.driver.current_activity
+        self.log("launch with now ---- " + current_activity)
+        if current_activity == launch_values[1]:
+            return {'result': False}
+        self.log("****************** launch ******************")
+        self.driver.start_activity(launch_values[0], launch_values[1])
+        return {'result': True}
+
     def base_assert(self, operateInfo):
         """
         base_assert
         :param operateInfo:
         :return:
         """
-        target = self.get_value(operateInfo)['text']
-        print("base_assert ---- " + target)
-        assert target in operateInfo.get(Option.ASSERT_VALUES)
+        self.log("****************** base_assert ******************")
+        assert_type = operateInfo.get(Option.ASSERT_TYPE, Action.ASSERT_TEXT)
+        assert_flag = False
+        if assert_type == Action.ASSERT_TEXT:
+            res = self.find_element_until(operateInfo)
+            self.log("****** find pre assert ****** ")
+            find_result_ = res["result"]
+            assert find_result_
+
+            if find_result_:
+                value_result = self.get_value(operateInfo)
+                targets = operateInfo.get(Option.ASSERT_VALUES)
+                self.log("****** base_assert ****** get value_result: " + str(value_result) + ", targets: " + str(targets))
+                value_flag = value_result['result']
+                target = value_result['text']
+                assert_flag = target in targets
+                assert target in targets
+
+        elif assert_type == Action.ASSERT_ACTIVITY:
+            activity_result = self.wait_activity(operateInfo)
+            self.log("****** base_assert ****** get activity_result: " + str(activity_result))
+            assert_flag = activity_result['result']
+            assert assert_flag
+
+        self.log("****** base_assert ****** assert_flag: " + str(assert_flag))
+        return {"result": assert_flag}
+
+
+
+    def wait_activity(self, operateInfo):
+        activity = operateInfo[Option.ASSERT_VALUES][0]
+        time = operateInfo.get(Option.CHECK_TIME, 5)
+        ret = {'result': False}
+        try:
+            ret['result'] = self.driver.wait_activity(activity, time)
+            self.log("wait_activity done ---- %s" % self.driver.current_activity)
+        except:
+            pass
+        return ret
+
 
     def get_value(self, operateInfo):
         '''
@@ -328,7 +385,7 @@ class OperateElement:
         :return:
         '''
 
-        print("get_value ----")
+        self.log("get_value ----")
         find_type_ = operateInfo["find_type"]
         single = self.check_find_single(find_type_)
 
@@ -337,18 +394,21 @@ class OperateElement:
         else:
             el = self.elements_by(operateInfo)[operateInfo[Option.INDEX]]
 
-        if operateInfo.get("is_webview", "0") == 1:
-            result = el.text
-        else:
-            result = el.get_attribute("text")
+        if el:
+            if operateInfo.get("is_webview", "0") == 1:
+                result = el.text
+            else:
+                result = el.get_attribute("text")
 
-        re_reulst = re.findall(r'[\w+\u4e00-\u9fa5]', result)  # 匹配中文，大小写字母，数字，下划线, .
-        return {"result": True, "text": "".join(re_reulst)}
+            re_reulst = re.findall(r'[\w+\u4e00-\u9fa5]', result)  # 匹配中文，大小写字母，数字，下划线, .
+            return {"result": True, "text": "".join(re_reulst)}
+        else:
+            return {"result": False, "text": ""}
 
     # 封装常用的标签
     def elements_by(self, operateInfo):
         info = operateInfo.get("element_info", " ") + ", find_type: " + operateInfo.get("find_type", " ")
-        print("elements_by: " + info)
+        self.log("elements_by: " + info)
         element_info_ = operateInfo[Option.ELEMENT_INFO]
         find_type_ = operateInfo["find_type"]
         if find_type_ in [Action.FIND_ELEMENT_BY_UISELECT_TEXT, Action.FIND_ELEMENTS_BY_UISELECT_TEXT]:
@@ -364,3 +424,6 @@ class OperateElement:
             Action.FIND_ELEMENTS_BY_CLASS_NAME: lambda: self.driver.find_elements_by_class_name(element_info_)
         }
         return elements[operateInfo["find_type"]]()
+
+    def log(self, msg):
+        L.d(msg, tag=TAG)

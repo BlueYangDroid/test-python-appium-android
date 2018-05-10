@@ -121,6 +121,12 @@ def logcat():
     file = os.getcwd() + os.sep + time.strftime("%Y%m%d_%H%M%S.log.txt")
     run("adb shell logcat -v threadtime > %s" % file)
 
+def create_logcat(file_name = 'log'):
+    file = os.getcwd() + os.sep + time.strftime("%Y%m%d_%H%M%S." + file_name + ".txt")
+    os.popen("adb shell logcat -v time > %s" % file)
+
+def stop_logcat():
+    os.system(os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, "utils/kill5037.bat")))
 
 if __name__ == '__main__':
     print("connect 192.168.1.53 result: ", connect("192.168.1.53"))
