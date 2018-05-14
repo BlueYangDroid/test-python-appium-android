@@ -26,25 +26,3 @@ PlayStartFullscreen:
       element_info: com.jamdeo.tv.vod:id/test_video_resize
       action: click
       check_time: 5
-    -
-      name: start
-      find_type: id
-      element_info: com.jamdeo.tv.vod:id/test_video_start
-      action: click
-      check_time: 5
-    -
-      name: CheckedTextView
-      find_type: class_names
-      element_info: android.widget.CheckedTextView
-      index: 0
-      action: click
-      check_time: 5
-    -
-      name: PLAYING断言
-      find_type: id
-      element_info: com.jamdeo.tv.vod:id/test_video_status
-      action: assert
-      check_time: 10
-      assert_values:
-        - STATE_PLAYING
-        - AD_STATE_PLAYING

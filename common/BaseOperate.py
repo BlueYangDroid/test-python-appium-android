@@ -106,17 +106,18 @@ class OperateElement:
         :param device:
         :return: result TRUE/FALSE
         '''
-        self.log("---- operate ---- " + device)
-        res = self.find_element_until(operateInfo)
+        find_type = operateInfo.get("find_type", None)
+        self.log("----------------------- operate ---- find_type: %s, device: %s" % (find_type, device))
+        if find_type:
+            res = self.find_element_until(operateInfo)
 
-        self.log("****** operate pre assert ****** ")
-        find_result_ = res["result"]
-        assert find_result_
-
-        if find_result_:
+            self.log("****** operate pre assert ****** ")
+            find_result_ = res["result"]
+            assert find_result_
             return self.operate_by(operateInfo, device)
+
         else:
-            return res
+            return self.operate_by(operateInfo, device)
 
     def operate_by(self, operateInfo, device):
         try:
@@ -128,6 +129,8 @@ class OperateElement:
                 self.log("operate_by: just back true cause none action !")
                 return {"result": True}
             actions = {
+                Action.SWIPE_LEFT: lambda: self.swipeToLeft(),
+                Action.SWIPE_RIGHT: lambda: self.swipeToRight(),
                 Action.SWIPE_DOWN: lambda: self.swipeToDown(),
                 Action.SWIPE_UP: lambda: self.swipeToUp(),
                 Action.CLICK: lambda: self.click(operateInfo),
@@ -249,14 +252,15 @@ class OperateElement:
             return {"result": False, "text": "appium.common.exceptions.NoSuchContextException异常"}
 
     # 左滑动
-    def swipeLeft(self, operateInfo):
-        self.log("swipeLeft ----")
+    def swipeToLeft(self):
+        self.log("swipeToLeft ----")
         width = self.driver.get_window_size()["width"]
         height = self.driver.get_window_size()["height"]
         x1 = int(width * 0.75)
         y1 = int(height * 0.5)
         x2 = int(width * 0.05)
-        self.driver(x1, y1, x2, y1, 600)
+        self.driver.swipe(x1, y1, x2, y1, 600)
+        return {"result": True}
 
     # swipe start_x: 200, start_y: 200, end_x: 200, end_y: 400, duration: 2000 从200滑动到400
     def swipeToDown(self):
@@ -286,12 +290,12 @@ class OperateElement:
         self.log("swipeToRight ----")
         height = self.driver.get_window_size()["height"]
         width = self.driver.get_window_size()["width"]
-        x1 = int(width * 0.05)
+        x1 = int(width * 0.01)
         y1 = int(height * 0.5)
         x2 = int(width * 0.75)
-        self.driver.swipe(x1, y1, x1, x2, 1000)
+        self.driver.swipe(x1, y1, x2, y1, 1000)
         # self.driver.swipe(0, 1327, 500, 900, 1000)
-        self.log("--swipeToUp--")
+        return {"result": True}
 
     def set_value(self, operateInfo):
         """

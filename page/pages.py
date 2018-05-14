@@ -44,15 +44,97 @@ class HomePageSigned:
 
 class PlayStartFullscreen:
     
+    step_启动首页 = get_step('PlayStartFullscreen', '启动首页')
+    
     step_进入自动化测试页 = get_step('PlayStartFullscreen', '进入自动化测试页')
+    
+    step_测试页断言 = get_step('PlayStartFullscreen', '测试页断言')
     
     step_resize = get_step('PlayStartFullscreen', 'resize')
     
-    step_start = get_step('PlayStartFullscreen', 'start')
+
+
+class PlayCaseQiyi:
     
-    step_CheckedTextView = get_step('PlayStartFullscreen', 'CheckedTextView')
+    step_右划侧栏 = get_step('PlayCaseQiyi', '右划侧栏')
     
-    step_PLAYING断言 = get_step('PlayStartFullscreen', 'PLAYING断言')
+    step_奇艺菜单 = get_step('PlayCaseQiyi', '奇艺菜单')
+    
+    step_start = get_step('PlayCaseQiyi', 'start')
+    
+    step_CheckedTextView = get_step('PlayCaseQiyi', 'CheckedTextView')
+    
+    step_PLAYING断言 = get_step('PlayCaseQiyi', 'PLAYING断言')
+    
+
+
+class PlayCaseWasu:
+    
+    step_右划侧栏 = get_step('PlayCaseWasu', '右划侧栏')
+    
+    step_华数菜单 = get_step('PlayCaseWasu', '华数菜单')
+    
+    step_start = get_step('PlayCaseWasu', 'start')
+    
+    step_CheckedTextView = get_step('PlayCaseWasu', 'CheckedTextView')
+    
+    step_PLAYING断言 = get_step('PlayCaseWasu', 'PLAYING断言')
+    
+
+
+class PlayCaseTencent:
+    
+    step_右划侧栏 = get_step('PlayCaseTencent', '右划侧栏')
+    
+    step_腾讯菜单 = get_step('PlayCaseTencent', '腾讯菜单')
+    
+    step_start = get_step('PlayCaseTencent', 'start')
+    
+    step_CheckedTextView = get_step('PlayCaseTencent', 'CheckedTextView')
+    
+    step_PLAYING断言 = get_step('PlayCaseTencent', 'PLAYING断言')
+    
+
+
+class PlayCaseSohu:
+    
+    step_右划侧栏 = get_step('PlayCaseSohu', '右划侧栏')
+    
+    step_搜狐菜单 = get_step('PlayCaseSohu', '搜狐菜单')
+    
+    step_start = get_step('PlayCaseSohu', 'start')
+    
+    step_CheckedTextView = get_step('PlayCaseSohu', 'CheckedTextView')
+    
+    step_PLAYING断言 = get_step('PlayCaseSohu', 'PLAYING断言')
+    
+
+
+class PlayCaseWangsu:
+    
+    step_右划侧栏 = get_step('PlayCaseWangsu', '右划侧栏')
+    
+    step_网宿菜单 = get_step('PlayCaseWangsu', '网宿菜单')
+    
+    step_start = get_step('PlayCaseWangsu', 'start')
+    
+    step_CheckedTextView = get_step('PlayCaseWangsu', 'CheckedTextView')
+    
+    step_PLAYING断言 = get_step('PlayCaseWangsu', 'PLAYING断言')
+    
+
+
+class PlayCaseUrl:
+    
+    step_右划侧栏 = get_step('PlayCaseUrl', '右划侧栏')
+    
+    step_URL菜单 = get_step('PlayCaseUrl', 'URL菜单')
+    
+    step_start = get_step('PlayCaseUrl', 'start')
+    
+    step_CheckedTextView = get_step('PlayCaseUrl', 'CheckedTextView')
+    
+    step_PLAYING断言 = get_step('PlayCaseUrl', 'PLAYING断言')
     
 
 

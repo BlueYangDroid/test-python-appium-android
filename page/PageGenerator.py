@@ -24,6 +24,14 @@ def parse():
             with open(watch_file_path, 'r', encoding='utf-8') as f:
                 page = yaml.safe_load(f)
             pages.update(page)
+
+        for dir in dirs:
+            for root, dirs, files in os.walk(os.path.join(root, dir)):
+                for name in files:
+                    watch_file_path = os.path.join(root, name)
+                    with open(watch_file_path, 'r', encoding='utf-8') as f:
+                        page = yaml.safe_load(f)
+                    pages.update(page)
         return pages
 
 
@@ -54,7 +62,8 @@ class GenPages:
         template_loader = jinja2.FileSystemLoader(searchpath=base_dir + "/page/template")
         template_env = jinja2.Environment(loader=template_loader)
         page_list = GenPages.gen_page_list()
-        print(page_list)
+        for key, value in page_list.items():
+            L.i(key + ':' + str(value), tag=TAG)
 
         # 模板pages中定义的model为'page_list', 此字段不能动
         _templateVars = {

@@ -34,17 +34,69 @@ class TestPlayFullscreen(TestBase):
         # self.driver.find_element_by_android_uiautomator("new UiSelector().text(\"海信广告测试\")").click()
         self.operater.launch(PlayStartFullscreen.step_启动首页)
         self.operater.operate(PlayStartFullscreen.step_进入自动化测试页, self.deviceName)
+        self.operater.operate(PlayStartFullscreen.step_resize, self.deviceName)
         self.operater.base_assert(PlayStartFullscreen.step_测试页断言)
         L.i(' <========= test_enter_auto_page\n', tag=TAG)
 
-    def test_play_large_screen(self):
-        L.i('\n =========> test_play_large_screen, device: ' + self.deviceName, tag=TAG)
-        self.operater.operate(PlayStartFullscreen.step_resize, self.deviceName)
-        self.operater.operate(PlayStartFullscreen.step_start, self.deviceName)
-        self.operater.operate(PlayStartFullscreen.step_CheckedTextView, self.deviceName)
-        tools.sleep(5)
-        self.operater.base_assert(PlayStartFullscreen.step_PLAYING断言)
-        L.i(' <========= test_play_large_screen\n', tag=TAG)
+    def test_play_qiyi(self):
+        L.i('\n =========> test_play_qiyi, device: ' + self.deviceName, tag=TAG)
+        self.operater.operate(PlayCaseQiyi.step_右划侧栏, self.deviceName)
+        self.operater.operate(PlayCaseQiyi.step_奇艺菜单, self.deviceName)
+        self.operater.operate(PlayCaseQiyi.step_start, self.deviceName)
+        self.operater.operate(PlayCaseQiyi.step_CheckedTextView, self.deviceName)
+        tools.sleep(3)
+        self.operater.base_assert(PlayCaseQiyi.step_PLAYING断言)
+        L.i(' <========= test_play_qiyi\n', tag=TAG)
+
+    def test_play_wasu(self):
+        L.i('\n =========> test_play_wasu, device: ' + self.deviceName, tag=TAG)
+        self.operater.operate(PlayCaseWasu.step_右划侧栏, self.deviceName)
+        self.operater.operate(PlayCaseWasu.step_华数菜单, self.deviceName)
+        self.operater.operate(PlayCaseWasu.step_start, self.deviceName)
+        self.operater.operate(PlayCaseWasu.step_CheckedTextView, self.deviceName)
+        tools.sleep(3)
+        self.operater.base_assert(PlayCaseQiyi.step_PLAYING断言)
+        L.i(' <========= test_play_wasu\n', tag=TAG)
+
+    def test_play_tencent(self):
+        L.i('\n =========> test_play_tencent, device: ' + self.deviceName, tag=TAG)
+        self.operater.operate(PlayCaseTencent.step_右划侧栏, self.deviceName)
+        self.operater.operate(PlayCaseTencent.step_腾讯菜单, self.deviceName)
+        self.operater.operate(PlayCaseTencent.step_start, self.deviceName)
+        self.operater.operate(PlayCaseTencent.step_CheckedTextView, self.deviceName)
+        tools.sleep(3)
+        self.operater.base_assert(PlayCaseQiyi.step_PLAYING断言)
+        L.i(' <========= test_play_tencent\n', tag=TAG)
+
+    def test_play_sohu(self):
+        L.i('\n =========> test_play_sohu, device: ' + self.deviceName, tag=TAG)
+        self.operater.operate(PlayCaseSohu.step_右划侧栏, self.deviceName)
+        self.operater.operate(PlayCaseSohu.step_搜狐菜单, self.deviceName)
+        self.operater.operate(PlayCaseSohu.step_start, self.deviceName)
+        self.operater.operate(PlayCaseSohu.step_CheckedTextView, self.deviceName)
+        tools.sleep(3)
+        self.operater.base_assert(PlayCaseQiyi.step_PLAYING断言)
+        L.i(' <========= test_play_sohu\n', tag=TAG)
+
+    def test_play_wangsu(self):
+        L.i('\n =========> test_play_wangsu, device: ' + self.deviceName, tag=TAG)
+        self.operater.operate(PlayCaseWangsu.step_右划侧栏, self.deviceName)
+        self.operater.operate(PlayCaseWangsu.step_网宿菜单, self.deviceName)
+        self.operater.operate(PlayCaseWangsu.step_start, self.deviceName)
+        self.operater.operate(PlayCaseWangsu.step_CheckedTextView, self.deviceName)
+        tools.sleep(3)
+        self.operater.base_assert(PlayCaseQiyi.step_PLAYING断言)
+        L.i(' <========= test_play_wangsu\n', tag=TAG)
+
+    def test_play_url(self):
+        L.i('\n =========> test_play_url, device: ' + self.deviceName, tag=TAG)
+        self.operater.operate(PlayCaseUrl.step_右划侧栏, self.deviceName)
+        self.operater.operate(PlayCaseUrl.step_URL菜单, self.deviceName)
+        self.operater.operate(PlayCaseUrl.step_start, self.deviceName)
+        self.operater.operate(PlayCaseUrl.step_CheckedTextView, self.deviceName)
+        tools.sleep(3)
+        self.operater.base_assert(PlayCaseQiyi.step_PLAYING断言)
+        L.i(' <========= test_play_url\n', tag=TAG)
 
 
 

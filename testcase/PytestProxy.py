@@ -34,15 +34,12 @@ def run():
     html_report_path = env.get_environment_info().html_report
     # 开始测试
     # extra_args = ['-s', '-q', '--alluredir', xml_report_path]
-    extra_args = ['-s', '-q']
+    extra_args = ['-s', '-q', '--html=%s/result.html' % html_report_path]
     # test_args = sys.argv[1:]
-    test_args = [os.path.join(os.path.dirname(__file__), os.pardir, 'testcase/Test_Login_Page.py'),
-                 os.path.join(os.path.dirname(__file__), os.pardir, 'testcase/Test_Play_Fullscreen.py'),
-                 os.path.join(os.path.dirname(__file__), os.pardir, 'testcase/Test_Login_Page.py'),
-                 os.path.join(os.path.dirname(__file__), os.pardir, 'testcase/Test_Play_Fullscreen.py'),
-                 os.path.join(os.path.dirname(__file__), os.pardir, 'testcase/Test_Login_Page.py'),
-                 os.path.join(os.path.dirname(__file__), os.pardir, 'testcase/Test_Play_Fullscreen.py')
-                 ]
+    test_args = [
+        # os.path.join(os.path.dirname(__file__), os.pardir, 'testcase/Test_Login_Page.py'),
+         os.path.join(os.path.dirname(__file__), os.pardir, 'testcase/Test_Play_Fullscreen.py')
+         ]
     L.i('------------ pytest 开始测试 ------------, files: \n %s \n' % '\n'.join(test_args), tag=TAG)
     pytest.main(extra_args + test_args)
     # # 生成html测试报告

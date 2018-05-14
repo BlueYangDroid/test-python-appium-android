@@ -30,7 +30,7 @@ class Action(object):
 
     SWIPE_DOWN = "swipe_down"
     SWIPE_UP = "swipe_up"
-
+    SWIPE_RIGHT = "swipe_right"
     SWIPE_LEFT = "swipe_left"
     SET_VALUE = "set_value"
     GET_VALUE = "get_value"
